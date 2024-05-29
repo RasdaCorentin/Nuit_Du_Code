@@ -1,8 +1,8 @@
 # Nuit du Code 
  
-Equipe : Losmoukate
+Equipe: Losmoukate
 
-Jeu :Le trésor de la Buse
+Jeu: Le trésor de la Buse
 
 
 ## Objectif:
