@@ -2,7 +2,7 @@ import pyxel
 
 #constantes
 
-START_GAME = 0
+START_MENU = 0
 GAME = 1
 
 
