@@ -5,28 +5,39 @@ class Game:
         self.height = 256
         self.player = Player(50,50, self)
         self.list_bulle = [] 
-        self.bulle1 = Bulle(50,75)
-        self.bulle2 = Bulle(50,150)
+        self.bulle1 = Bulle(50,275)
+        self.bulle2 = Bulle(75,350)
         self.floor = Floor()
+        self.bar = Barre(self)
         self.list_bulle.append(self.bulle1)
         self.list_bulle.append(self.bulle2)
         self.collide = False
         self.on_ground = False
-        pyxel.init(self.width, self.height, title="Un jeu")
-        #load
+        self.musique = True
+        pyxel.init(self.width, self.height, title="Un jeu", fps=60)
         pyxel.load("1.pyxres")
         pyxel.run(self.update, self.draw)
 
     def update(self):
         self.player.move_player()
         self.check_collision()
+        if self.floor.y > 250:
+            self.move(self.floor)
+        for bulle in self.list_bulle:
+            self.move(bulle)
+        self.bar.update_event()
 
     def draw(self):
         pyxel.cls(0)
+        self.bar.draw_barre()
+        self.bar.draw_barre_event()
         self.floor.draw_floor()
         self.player.draw_player()
         for bulle in self.list_bulle:
             bulle.draw_bulle()
+
+    def move(self, elem):
+        elem.y -= 1
 
     def check_collision(self):
         isCollision_wfloor = Collider(self.player, self.floor).collide()
@@ -42,8 +53,12 @@ class Game:
                 break
             else :
                 self.collide = False
-            
-                
+
+    def music(self):
+        if self.musique :
+            pyxel.playm(0, tick = None, loop = True)
+            self.musique = False
+
 
 class Player:
     def __init__(self, x , y, game):
@@ -51,7 +66,7 @@ class Player:
         self.height = 12
         self.x = x
         self. y = y
-        self.gravity = 1
+        self.pression = 1
         self.game = game
 
     def draw_player(self):
@@ -59,19 +74,40 @@ class Player:
 
     def move_player(self):
             if self.game.collide:
-                self.y += (self.gravity - 0.5)
-            if not self.game.on_ground and not self.game.collide:
-                self.y += self.gravity
+                print("collision")
+            if self.game.floor.y < 252:
+                if not self.game.on_ground:
+                    self.y += 1
             if pyxel.btn(pyxel.KEY_LEFT):
-                self.x += 1
-            if pyxel.btn(pyxel.KEY_RIGHT):
                 self.x -= 1
+            if pyxel.btn(pyxel.KEY_RIGHT):
+                self.x += 1
+class Barre:
+    def __init__(self, game):
+        self.x = 249
+        self.y = 0
+        self.width = 7
+        self.height = 30
+        self.height_event = 0
+        self.height_event_max = 30
+        self.game = game
+
+    def draw_barre(self):
+        pyxel.rect(self.x, self.y, self.width, self.height, 7)
+
+    def draw_barre_event(self):
+        pyxel.rect(self.x, self.y, self.width, self.height_event, 3)
+    
+    def update_event(self):
+        if self.height_event != self.height_event_max:
+            self.height_event += 1
+
 class Floor:
     def __init__(self):
         self.width = 256
         self.height = 6
         self.x = 0
-        self.y = 250
+        self.y = 400
 
     def draw_floor(self):
         pyxel.rect(self.x, self.y, self.width, self.height, 3)
