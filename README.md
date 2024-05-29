@@ -5,7 +5,7 @@ nom d'équipe : Losmoukate
 
 Le trésor de la Buse
 
-** Objectif:
+## Objectif:
 
 vous êtes capitaine d'un sou marin de la marine nationale. Le monde est en guerre, votre ennemi gagne du terrain et votre pays manquent de fonds pour se défendre et loger les civils.
 
@@ -16,7 +16,7 @@ Bon courage camarade
 
 
 
-** Fonctionnement:
+## Fonctionnement:
 
 Le jeu se déroule de cette façon, une descente constante ou le joueur doit ralentir ça chute afin que le vaisseau puisse s'adapter à la pression progressivement, le joueur gagne s'il atteint le trésor de la Buse.
 
