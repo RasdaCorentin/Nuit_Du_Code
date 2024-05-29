@@ -7,7 +7,7 @@ Jeu :Le trésor de la Buse
 
 ## Objectif:
 
-vous êtes capitaine d'un sou marin de la marine nationale. Le monde est en guerre, votre ennemi gagne du terrain et votre pays manquent de fonds pour se défendre et loger les civils.
+Vous êtes capitaine d'un sou marin de la marine nationale. Le monde est en guerre, votre ennemi gagne du terrain et votre pays manquent de fonds pour se défendre et loger les civils.
 
 Mais tous espoirs n'est pas perdu car ont vos envoie trouver et ramener le trésor du célèbre pirate Olivier Levasseur dit la buse.
 
@@ -20,9 +20,9 @@ Bon courage camarade
 
 Le jeu se déroule de cette façon, une descente constante ou le joueur doit ralentir ça chute afin que le vaisseau puisse s'adapter à la pression progressivement, le joueur gagne s'il atteint le trésor de la Buse.
 
-le joueur utilise les fleches gauche et droite ou Q et D pour se déplacer de gauche à droite.
+Le joueur utilise les fleches gauche et droite ou Q et D pour se déplacer de gauche à droite.
 
-le bouton R réinitialise le jeu en cas de GAME OVER.
+Le bouton R réinitialise le jeu en cas de GAME OVER.
 
 ## Ressources
 
