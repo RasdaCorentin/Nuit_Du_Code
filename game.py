@@ -10,6 +10,7 @@ class Game:
     def __init__(self):
         self.width = 256
         self.height = 256
+        self.game_mode = START_MENU
         self.player = Player(self.width // 2, 50, self)
         self.list_bulle = [] 
         self.bulle1 = Bulle(50,275)
