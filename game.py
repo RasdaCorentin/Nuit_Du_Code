@@ -31,6 +31,7 @@ class Game:
         pyxel.text(100,200,"PRESS SPACE", 0)
         if pyxel.btnr(pyxel.KEY_SPACE):
             self.game_mode = GAME
+    
     def update(self):
         self.player.move_player()
         self.check_collision()
@@ -40,8 +41,7 @@ class Game:
             self.move(bulle)
         self.bar.update_event()
         self.creation_bulle()
-        if self.game_mode == START_MENU:
-            self.start_menu()
+        
 
 
     def draw(self):
@@ -52,6 +52,8 @@ class Game:
         self.player.draw_player()
         for bulle in self.list_bulle:
             bulle.draw_bulle()
+        if self.game_mode == START_MENU:
+            self.start_menu()
 
     def creation_bulle(self):
         self.bulle_x = pyxel.rndf(0,256)
