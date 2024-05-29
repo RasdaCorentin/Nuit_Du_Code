@@ -9,7 +9,7 @@ Jeu: Le trésor de la Buse
 
 Vous êtes capitaine d'un sou marin de la marine nationale. Le monde est en guerre, votre ennemi gagne du terrain et votre pays manquent de fonds pour se défendre et loger les civils.
 
-Mais tous espoirs n'est pas perdu car ont vos envoie trouver et ramener le trésor du célèbre pirate Olivier Levasseur dit la buse.
+Mais tous espoirs n'est pas perdu car ont vous envoie trouver et ramener le trésor du célèbre pirate Olivier Levasseur dit la buse.
 
 Vous portez sur vos épaules la sécuriser d'une nation et la survie de tout un peuple, 
 Bon courage camarade
