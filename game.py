@@ -5,6 +5,7 @@ import pyxel
 START_MENU = 0
 GAME = 1
 GAME_OVER = 3
+WIN = 2
 
 
 
@@ -14,10 +15,10 @@ class Game:
         self.height = 256
         self.game_mode = START_MENU
         self.defeat = False
-        self.reset()
         
-        pyxel.init(self.width, self.height, title="Un jeu", fps=60)
-        pyxel.load("1.pyxres")
+        pyxel.init(self.width, self.height, title="Le trésor de la Buse", fps=60)
+        self.reset()
+        pyxel.load("ressources.pyxres")
         pyxel.run(self.update, self.draw)
 
     def reset(self):
@@ -26,9 +27,11 @@ class Game:
         self.bulle1 = Bulle(50,275)
         self.bulle2 = Bulle(75,350)
         self.floor = Floor()
+        self.chest = Chest(self)
         self.bar = Barre(self)
         self.collide = False
         self.on_ground = False
+        self.on_chest = False
         self.musique = True
         self.defeat = False
 
@@ -42,9 +45,18 @@ class Game:
             self.game_mode = GAME
 
     def game_over(self):
+        pyxel.stop()
         pyxel.cls(6)
-        pyxel.text(85,100,"GAME OVER", 0)
-        pyxel.text(100,200,"PRESS R TO RESTART", 0)
+        pyxel.text(100,100,"GAME OVER", 0)
+        pyxel.text(90,200,"PRESS R TO RESTART", 0)
+        if pyxel.btnr(pyxel.KEY_R):
+            self.game_mode = GAME
+            self.reset()
+
+    def win(self):
+        pyxel.cls(6)
+        pyxel.text(100,100,"YOU WON", 0)
+        pyxel.text(90,200,"PRESS R TO RESTART", 0)
         if pyxel.btnr(pyxel.KEY_R):
             self.game_mode = GAME
             self.reset()
@@ -52,16 +64,23 @@ class Game:
 
     def update(self):
         if not self.defeat:
+            self.music()
             self.player.move_player()
             self.check_collision()
             if self.floor.y > 250:
                 self.move(self.floor)
+                self.move(self.chest)
             for bulle in self.list_bulle:
                 self.move(bulle)
             self.bar.update_event()
             self.creation_bulle()
         if self.game_mode == GAME_OVER and pyxel.btn(pyxel.KEY_R):
             self.reset()
+            self.musique = True
+
+        if self.game_mode == WIN:
+            self.win()
+            self.musique = True
         
 
 
@@ -72,23 +91,42 @@ class Game:
             self.bar.draw_barre_event()
             self.floor.draw_floor()
             self.player.draw_player()
+            if not self.on_chest:
+                self.chest.draw_chest_close()
+            else :
+                self.chest.draw_chest_open()
+                if pyxel.frame_count % 50 == 0:
+                    self.game_mode = WIN
+
             for bulle in self.list_bulle:
                 bulle.draw_bulle()
         if self.game_mode == START_MENU:
             self.start_menu()
+            self.reset()
+            pyxel.stop()
         if self.defeat:
             self.game_mode = GAME_OVER
-            self.game_over()           
+            self.game_over()
+            self.reset()
+            pyxel.stop()
+        if self.game_mode == WIN:
+            self.reset()
+            self.win() 
 
     def creation_bulle(self):
         self.bulle_x = pyxel.rndf(0,256)
-        if pyxel.frame_count % 45 == 0:
-            self.list_bulle.append(Bulle(self.bulle_x, 250))
+        if pyxel.frame_count % 40 == 0:
+            self.list_bulle.append(Bulle(self.bulle_x, 230))
 
     def move(self, elem):
         elem.y -= 1
 
     def check_collision(self):
+        isCollision_wchest = Collider(self.player, self.chest).collide()
+        if isCollision_wchest:
+            self.on_chest = True
+        else :
+            self.on_chest = False
         isCollision_wfloor = Collider(self.player, self.floor).collide()
         if isCollision_wfloor:
             self.on_ground = True
@@ -137,10 +175,25 @@ class Player:
             if self.game.floor.y < 252:
                 if not self.game.on_ground:
                     self.y += 0.5
-            if pyxel.btn(pyxel.KEY_LEFT):
+            if pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.KEY_Q):
                 self.x -= 1
-            if pyxel.btn(pyxel.KEY_RIGHT):
+            if pyxel.btn(pyxel.KEY_RIGHT) or pyxel.btn(pyxel.KEY_D):
                 self.x += 1
+
+class Chest:
+    def __init__(self, game):
+        self.game = game
+        self.width = 256
+        self.height = 6
+        self.x = pyxel.rndi(5,250)
+        self.y = self.game.floor.y - 6
+    
+    def draw_chest_close(self):
+        pyxel.blt(self.x, self.y, 0 ,8, 80,8,8)
+
+    def draw_chest_open(self):
+        pyxel.blt(self.x, self.y, 0 ,16, 80,8,8)
+
 class Barre:
     def __init__(self, game):
         self.x = 249
@@ -169,6 +222,7 @@ class Floor:
         self.height = 6
         self.x = 0
         self.y = 600
+        
 
     def draw_floor(self):
         pyxel.rect(self.x, self.y, self.width, self.height, 3)
