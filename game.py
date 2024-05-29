@@ -1,4 +1,11 @@
-import pyxel 
+import pyxel
+
+#constantes
+
+START_GAME = 0
+GAME = 1
+
+
 class Game: 
     def __init__(self):
         self.width = 256
@@ -15,7 +22,14 @@ class Game:
         pyxel.init(self.width, self.height, title="Un jeu", fps=60)
         pyxel.load("1.pyxres")
         pyxel.run(self.update, self.draw)
-        
+
+
+    def start_menu(self):
+        pyxel.cls(6)
+        pyxel.text(85,100,"LE TRESOR DE LA BUSE", 0)
+        pyxel.text(100,200,"PRESS SPACE", 0)
+        if pyxel.btnr(pyxel.KEY_SPACE):
+            self.game_mode = GAME
     def update(self):
         self.player.move_player()
         self.check_collision()
@@ -25,6 +39,9 @@ class Game:
             self.move(bulle)
         self.bar.update_event()
         self.creation_bulle()
+        if self.game_mode == START_MENU:
+            self.start_menu()
+
 
     def draw(self):
         pyxel.cls(0)
