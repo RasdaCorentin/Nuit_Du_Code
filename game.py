@@ -20,7 +20,7 @@ class Game:
         self.on_ground = False
         self.musique = True
         pyxel.init(self.width, self.height, title="Un jeu", fps=60)
-        pyxel.load("1.pyxres")
+        pyxel.load("ressources.pyxres")
         pyxel.run(self.update, self.draw)
 
 
