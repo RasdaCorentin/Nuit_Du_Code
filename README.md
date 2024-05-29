@@ -1,9 +1,9 @@
 # Nuit du Code 
  
-nom d'équipe : Losmoukate
+Equipe : Losmoukate
 
+Jeu :Le trésor de la Buse
 
-Le trésor de la Buse
 
 ## Objectif:
 
@@ -24,5 +24,8 @@ le joueur utilise les fleches gauche et droite ou Q et D pour se déplacer de ga
 
 le bouton R réinitialise le jeu en cas de GAME OVER.
 
+## Ressources
+
+L'univers utilisé lors de la création du jeu est l'univers 1
 
 
