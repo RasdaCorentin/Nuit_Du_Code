@@ -18,7 +18,7 @@ Bon courage camarade
 
 ## Fonctionnement:
 
-Le jeu se déroule de cette façon, une descente constante ou le joueur doit ralentir ça chute afin que le vaisseau puisse s'adapter à la pression progressivement, le joueur gagne s'il atteint le trésor de la Buse.
+Le jeu se déroule de cette façon, une descente constante ou le joueur doit ralentir ça chute afin que le vaisseau puisse s'adapter à la pression progressivement grace au bulle, le joueur gagne s'il atteint le trésor de la Buse.
 
 Le joueur utilise les fleches gauche et droite ou Q et D pour se déplacer de gauche à droite.
 
