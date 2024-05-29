@@ -1,16 +1,8 @@
-import pyxel
-
-#constantes
-
-START_MENU = 0
-GAME = 1
-
-
+import pyxel 
 class Game: 
     def __init__(self):
         self.width = 256
         self.height = 256
-        self.game_mode = START_MENU
         self.player = Player(self.width // 2, 50, self)
         self.list_bulle = [] 
         self.bulle1 = Bulle(50,275)
@@ -21,17 +13,9 @@ class Game:
         self.on_ground = False
         self.musique = True
         pyxel.init(self.width, self.height, title="Un jeu", fps=60)
-        pyxel.load("ressources.pyxres")
+        pyxel.load("1.pyxres")
         pyxel.run(self.update, self.draw)
-
-
-    def start_menu(self):
-        pyxel.cls(6)
-        pyxel.text(85,100,"LE TRESOR DE LA BUSE", 0)
-        pyxel.text(100,200,"PRESS SPACE", 0)
-        if pyxel.btnr(pyxel.KEY_SPACE):
-            self.game_mode = GAME
-    
+        
     def update(self):
         self.player.move_player()
         self.check_collision()
@@ -41,19 +25,15 @@ class Game:
             self.move(bulle)
         self.bar.update_event()
         self.creation_bulle()
-        
-
 
     def draw(self):
         pyxel.cls(0)
         self.bar.draw_barre()
         self.bar.draw_barre_event()
         self.floor.draw_floor()
-        self.player.draw_player()
+        self.player.draw_player_explosion()
         for bulle in self.list_bulle:
             bulle.draw_bulle()
-        if self.game_mode == START_MENU:
-            self.start_menu()
 
     def creation_bulle(self):
         self.bulle_x = pyxel.rndf(0,256)
@@ -96,11 +76,17 @@ class Player:
         pyxel.blt(self.x,self.y,0,32,10,self.width,self.height)
 
     def draw_player_explosion(self):
-        print(pyxel.frame_count)
-        pyxel.blt(self.x, self.y, 0,16,96,8,8)
-        pyxel.blt(self.x, self.y, 0,32,88,8,8)
-        pyxel.blt(self.x, self.y, 0,18,107,24,24)
-        pyxel.blt(self.x, self.y, 0,34,107,24,24)
+        self.count = pyxel.frame_count
+        if self.count < 10:
+            pyxel.blt(self.x, self.y, 0,16,96,8,8)
+        elif self.count < 20 :
+            pyxel.blt(self.x, self.y, 0,32,88,8,8)
+        elif self.count < 30 :
+            pyxel.blt(self.x, self.y, 0,18,107,12,11)
+        elif self.count < 40 : 
+            pyxel.blt(self.x, self.y, 0,34,107,12,11)
+        
+
 
     def move_player(self):
             if self.game.collide:
