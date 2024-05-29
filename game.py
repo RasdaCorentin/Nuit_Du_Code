@@ -13,10 +13,11 @@ class Game:
         self.width = 256
         self.height = 256
         self.game_mode = START_MENU
+        self.defeat = False
         self.reset()
         
         pyxel.init(self.width, self.height, title="Un jeu", fps=60)
-        pyxel.load("ressources.pyxres")
+        pyxel.load("1.pyxres")
         pyxel.run(self.update, self.draw)
 
     def reset(self):
@@ -29,6 +30,7 @@ class Game:
         self.collide = False
         self.on_ground = False
         self.musique = True
+        self.defeat = False
 
 
 
@@ -39,45 +41,49 @@ class Game:
         if pyxel.btnr(pyxel.KEY_SPACE):
             self.game_mode = GAME
 
-    def game_over():
-        pyxel.cls(0)
+    def game_over(self):
+        pyxel.cls(6)
         pyxel.text(85,100,"GAME OVER", 0)
         pyxel.text(100,200,"PRESS R TO RESTART", 0)
-
+        if pyxel.btnr(pyxel.KEY_R):
+            self.game_mode = GAME
+            self.reset()
     
 
     def update(self):
-        self.player.move_player()
-        self.check_collision()
-        if self.floor.y > 250:
-            self.move(self.floor)
-        for bulle in self.list_bulle:
-            self.move(bulle)
-        self.bar.update_event()
-        self.creation_bulle()
+        if not self.defeat:
+            self.player.move_player()
+            self.check_collision()
+            if self.floor.y > 250:
+                self.move(self.floor)
+            for bulle in self.list_bulle:
+                self.move(bulle)
+            self.bar.update_event()
+            self.creation_bulle()
         if self.game_mode == GAME_OVER and pyxel.btn(pyxel.KEY_R):
             self.reset()
         
 
 
     def draw(self):
-        pyxel.cls(0)
-        self.bar.draw_barre()
-        self.bar.draw_barre_event()
-        self.floor.draw_floor()
-        self.player.draw_player()
-        for bulle in self.list_bulle:
-            bulle.draw_bulle()
+        if not self.defeat :
+            pyxel.cls(5)
+            self.bar.draw_barre()
+            self.bar.draw_barre_event()
+            self.floor.draw_floor()
+            self.player.draw_player()
+            for bulle in self.list_bulle:
+                bulle.draw_bulle()
         if self.game_mode == START_MENU:
             self.start_menu()
-        if self.game_mode == GAME_OVER:
-            self.game_over()
-            
+        if self.defeat:
+            self.game_mode = GAME_OVER
+            self.game_over()           
 
     def creation_bulle(self):
         self.bulle_x = pyxel.rndf(0,256)
-        if pyxel.frame_count % 60 == 0:
-            self.list_bulle.append(Bulle(self.bulle_x, 200))
+        if pyxel.frame_count % 45 == 0:
+            self.list_bulle.append(Bulle(self.bulle_x, 250))
 
     def move(self, elem):
         elem.y -= 1
@@ -115,11 +121,15 @@ class Player:
         pyxel.blt(self.x,self.y,0,32,10,self.width,self.height)
 
     def draw_player_explosion(self):
-        print(pyxel.frame_count)
-        pyxel.blt(self.x, self.y, 0,16,96,8,8)
-        pyxel.blt(self.x, self.y, 0,32,88,8,8)
-        pyxel.blt(self.x, self.y, 0,18,107,24,24)
-        pyxel.blt(self.x, self.y, 0,34,107,24,24)
+        self.count = pyxel.frame_count
+        if self.count < 10:
+            pyxel.blt(self.x, self.y, 0,16,96,8,8)
+        elif self.count < 20 :
+            pyxel.blt(self.x, self.y, 0,32,88,8,8)
+        elif self.count < 30 :
+            pyxel.blt(self.x, self.y, 0,18,107,12,11)
+        elif self.count < 40 : 
+            pyxel.blt(self.x, self.y, 0,34,107,12,11)
 
     def move_player(self):
             if self.game.collide:
@@ -150,7 +160,8 @@ class Barre:
     def update_event(self):
         if self.height_event < self.height_event_max:
             self.height_event += self.game.player.pression
-        if self.height_event == 50
+        else : 
+            self.game.defeat = True
 
 class Floor:
     def __init__(self):
